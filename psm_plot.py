@@ -596,26 +596,39 @@ def FunctionRootPlot141_regula_falsa(x,xlabel,y_func,y_func_label,root_data,root
 
 def FunctionRootPlot111_regula_falsa(x,xlabel,y_func,y_func_label,root_data,root_data_label,title,filename,a_b,iteration):
     fig1 = plt.figure()
-    
-    #a_label_part = f"a_{str(iteration)}"
-    #b_label_part = f"b_{str(iteration)}"
-    #root_label_part = f"x_ra_{str(iteration)}"
-    
-    labels = ['$a_1$','$b_1$','$a_2$','$b_2$','$a_3$','$b_3$','$a_4$','$b_4$']
-    root_labels = ['$x_{root_1}$','$x_{root_2}$','$x_{root_3}$','$x_{root_4}$']
+    iter_str = f'{str(iteration)}'
+    a_label = '$a_'+iter_str+'$'
+    b_label = '$b_'+iter_str+'$'
+    x_root_label_1 = '$x_'
+    x_root_label_2 = '{root_'
+    x_root_label_end = '}$'
+    x_root_label = x_root_label_1 + x_root_label_2 +iter_str+x_root_label_end
+    #s = ['$a_1$'_1,'$b_1$','$a_2$','$b_2$','$a_3$','$b_3$','$a_4$','$b_4$']
+    #root_labels = ['$x_{root_1}$','$x_{root_2}$','$x_{root_3}$','$x_{root_4}$']
     #plot function
     n=200
     x_fit,y_fit = line_plot(x,y_func,n)
     
+    y_percent = 0.2
+    x_percent = 0.05
+    y_offset = y_percent*(max(y_fit)-min(y_fit))
+    x_offset = x_percent*(max(x_fit)-min(x_fit))
     plt.title(title)
     plt.grid(color='b',linestyle='--')
-    plt.ylim(min(y_fit)-0.5*abs(min(y_fit)), max(y_fit)+0.5*abs(max(y_fit)))
+    plt.ylim(min(y_fit)-y_offset, max(y_fit)+y_offset)
     xrg = [a_b[2*(iteration-1)],a_b[2*(iteration-1)+1]]
     yrg = [y_func(xrg[0]),y_func(xrg[1])]
+    print(abs(root_data[iteration+1] - xrg[0]),abs(root_data[iteration+1] - xrg[1]),x_offset)
+    if abs(root_data[iteration+1] - xrg[1]) < x_offset or abs(root_data[iteration+1] - xrg[0]) < x_offset:
+        root_y_offset = y_offset
+        print('if')
+    else:
+        root_y_offset = -y_offset/4
+        print('else')
     plt.plot(xrg,yrg,c='g', linestyle='--',linewidth=2.0)
-    #circle = plt.text(a_b[iteration-1], -4.0, labels[iteration],fontsize=14)
-    #circle = plt.text(a_b[iteration], -4.0, labels[iteration+1], fontsize=14)
-    circle = plt.text(root_data[iteration+1], -1.0, root_labels[iteration-1], fontsize=14)
+    circle = plt.text(a_b[2*(iteration-1)], yrg[0]-y_offset/4, a_label,fontsize=14)
+    circle = plt.text(a_b[2*(iteration-1)+1], yrg[1]-y_offset/4, b_label, fontsize=14)
+    circle = plt.text(root_data[iteration+1], root_y_offset, x_root_label, fontsize=14)
     plt.plot(x_fit, y_fit, c='r', linestyle="-", linewidth=2.0, label=y_func_label)
     plt.xlabel(xlabel)
     plt.ylabel(y_func_label)
