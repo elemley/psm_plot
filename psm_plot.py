@@ -618,17 +618,62 @@ def FunctionRootPlot111_regula_falsa(x,xlabel,y_func,y_func_label,root_data,root
     plt.ylim(min(y_fit)-y_offset, max(y_fit)+y_offset)
     xrg = [a_b[2*(iteration-1)],a_b[2*(iteration-1)+1]]
     yrg = [y_func(xrg[0]),y_func(xrg[1])]
-    print(abs(root_data[iteration+1] - xrg[0]),abs(root_data[iteration+1] - xrg[1]),x_offset)
+    #print(abs(root_data[iteration+1] - xrg[0]),abs(root_data[iteration+1] - xrg[1]),x_offset)
     if abs(root_data[iteration+1] - xrg[1]) < x_offset or abs(root_data[iteration+1] - xrg[0]) < x_offset:
         root_y_offset = y_offset
-        print('if')
     else:
         root_y_offset = -y_offset/4
-        print('else')
     plt.plot(xrg,yrg,c='g', linestyle='--',linewidth=2.0)
     circle = plt.text(a_b[2*(iteration-1)], yrg[0]-y_offset/4, a_label,fontsize=14)
     circle = plt.text(a_b[2*(iteration-1)+1], yrg[1]-y_offset/4, b_label, fontsize=14)
     circle = plt.text(root_data[iteration+1], root_y_offset, x_root_label, fontsize=14)
+    plt.plot(x_fit, y_fit, c='r', linestyle="-", linewidth=2.0, label=y_func_label)
+    plt.xlabel(xlabel)
+    plt.ylabel(y_func_label)
+    plt.grid(color='b',linestyle='--')
+    plt.legend(loc=0)
+    plt.axis('auto')
+    plt.savefig(filename)
+    plt.show()
+
+    
+def FunctionRootPlot111_newton_raphson(x,xlabel,y_func,y_func_label,root_data,root_data_label,title,filename,iteration):
+    fig1 = plt.figure()
+    iter_str_i = f'{str(iteration)}'
+    iter_str_i_plus_1 = f'{str(iteration+1)}'
+    xi_label = '$x_'+iter_str_i+'$'
+    xi_plus_1_label = '$x_'+iter_str_i_plus_1+'$'
+    fi_label = '$f('+xi_label+')$'
+    fi_plus_1_label = '$f('+xi_plus_1_label+')$'
+    n=200
+    x_fit,y_fit = line_plot(x,y_func,n)
+    
+    y_percent = 0.2
+    x_percent = 0.05
+    y_offset = y_percent*(max(y_fit)-min(y_fit))
+    x_offset = x_percent*(max(x_fit)-min(x_fit))
+    plt.title(title)
+    plt.grid(color='b',linestyle='--')
+    plt.ylim(min(y_fit)-y_offset, max(y_fit)+y_offset)
+    xi = root_data[iteration-1]
+    xi_plus_1 = root_data[iteration]
+    fxi = y_func(xi)
+    fxi_plus_1= y_func(xi_plus_1)
+    dx = xi_plus_1 - xi
+    dy = -fxi
+    """
+    xrg = [a_b[2*(iteration-1)],a_b[2*(iteration-1)+1]]
+    yrg = [y_func(xrg[0]),y_func(xrg[1])]
+    if abs(root_data[iteration+1] - xrg[1]) < x_offset or abs(root_data[iteration+1] - xrg[0]) < x_offset:
+        root_y_offset = y_offset
+    else:
+        root_y_offset = -y_offset/4
+    """
+    plt.arrow(xi,fxi,dx,dy,color='g',width=.05)
+    #plt.plot(xrg,yrg,c='g', linestyle='--',linewidth=2.0)
+    #circle = plt.text(a_b[2*(iteration-1)], yrg[0]-y_offset/4, a_label,fontsize=14)
+    #circle = plt.text(a_b[2*(iteration-1)+1], yrg[1]-y_offset/4, b_label, fontsize=14)
+    #circle = plt.text(root_data[iteration+1], root_y_offset, x_root_label, fontsize=14)
     plt.plot(x_fit, y_fit, c='r', linestyle="-", linewidth=2.0, label=y_func_label)
     plt.xlabel(xlabel)
     plt.ylabel(y_func_label)
