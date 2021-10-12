@@ -1,6 +1,5 @@
 from math import *
 import sympy as sympy
-
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -325,9 +324,11 @@ def FunctionRootPlot111(x,xlabel,y_func,y_func_label,root_data,root_data_label,t
     """
 
     for i in range(0, len(root_data)):
-        s = str(i+1)
-        circle = plt.text(root_data[i], 0.0, s, fontsize=14)
+        i_string = str(i+1)
+        display_string = "$x_"+i_string+"$"
+        circle = plt.text(root_data[i], 0.0, display_string, fontsize=14)
         #plt.gca().add_patch(circle)
+        
 
     plt.legend(loc=0)
     plt.axis('auto')
@@ -508,7 +509,7 @@ def FunctionRootPlot411_regula_falsa(x,xlabel,y_func,y_func_label,root_data,root
     circle = plt.text(root_data[5], -4.0, root_labels[3], fontsize=14)
     plt.plot(x_fit, y_fit, c='r', linestyle="-", linewidth=2.0, label=y_func_label)
 
-    plt.legend(loc=0)
+    #plt.legend(loc=0)
     plt.axis('auto')
     plt.savefig(filename)
     plt.show()
@@ -536,7 +537,7 @@ def FunctionRootPlot141_regula_falsa(x,xlabel,y_func,y_func_label,root_data,root
     plt.plot(x_fit, y_fit, c='r', linestyle="-", linewidth=2.0, label=y_func_label)
     plt.xlabel(xlabel)
     plt.ylabel(y_func_label)
-    plt.legend(loc=0)
+    #plt.legend(loc=0)
     plt.axis('auto')
     
 
